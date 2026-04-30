@@ -66,7 +66,9 @@ def test_signup_adds_new_participant(client):
 
     # Assert
     assert response.status_code == 200
-    updated = client.get("/activities").json()
+    activities_response = client.get("/activities")
+    assert activities_response.status_code == 200
+    updated = activities_response.json()
     assert email in updated[activity_name]["participants"]
 
 
@@ -113,7 +115,9 @@ def test_unregister_removes_existing_participant(client):
 
     # Assert
     assert response.status_code == 200
-    updated = client.get("/activities").json()
+    activities_response = client.get("/activities")
+    assert activities_response.status_code == 200
+    updated = activities_response.json()
     assert email not in updated[activity_name]["participants"]
 
 

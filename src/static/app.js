@@ -21,27 +21,27 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const spotsLeft = details.max_participants - details.participants.length;
 
-        const h4 = document.createElement("h4");
-        h4.textContent = name;
-        activityCard.appendChild(h4);
+        const title = document.createElement("h4");
+        title.textContent = name;
+        activityCard.appendChild(title);
 
-        const descP = document.createElement("p");
-        descP.textContent = details.description;
-        activityCard.appendChild(descP);
+        const description = document.createElement("p");
+        description.textContent = details.description;
+        activityCard.appendChild(description);
 
-        const scheduleP = document.createElement("p");
-        const scheduleBold = document.createElement("strong");
-        scheduleBold.textContent = "Schedule:";
-        scheduleP.appendChild(scheduleBold);
-        scheduleP.append(` ${details.schedule}`);
-        activityCard.appendChild(scheduleP);
+        const schedule = document.createElement("p");
+        const scheduleLabel = document.createElement("strong");
+        scheduleLabel.textContent = "Schedule:";
+        schedule.appendChild(scheduleLabel);
+        schedule.appendChild(document.createTextNode(` ${details.schedule}`));
+        activityCard.appendChild(schedule);
 
-        const availP = document.createElement("p");
-        const availBold = document.createElement("strong");
-        availBold.textContent = "Availability:";
-        availP.appendChild(availBold);
-        availP.append(` ${spotsLeft} spots left`);
-        activityCard.appendChild(availP);
+        const availability = document.createElement("p");
+        const availabilityLabel = document.createElement("strong");
+        availabilityLabel.textContent = "Availability:";
+        availability.appendChild(availabilityLabel);
+        availability.appendChild(document.createTextNode(` ${spotsLeft} spots left`));
+        activityCard.appendChild(availability);
 
         const participantsSection = document.createElement("div");
         participantsSection.className = "participants-section";
@@ -52,35 +52,37 @@ document.addEventListener("DOMContentLoaded", () => {
         participantsSection.appendChild(participantsTitle);
 
         if (details.participants.length) {
-          const ul = document.createElement("ul");
-          ul.className = "participants-list";
+          const participantsList = document.createElement("ul");
+          participantsList.className = "participants-list";
+
           details.participants.forEach((email) => {
-            const li = document.createElement("li");
-            li.className = "participant-item";
+            const participantItem = document.createElement("li");
+            participantItem.className = "participant-item";
 
-            const span = document.createElement("span");
-            span.className = "participant-email";
-            span.textContent = email;
+            const participantEmail = document.createElement("span");
+            participantEmail.className = "participant-email";
+            participantEmail.textContent = email;
+            participantItem.appendChild(participantEmail);
 
-            const button = document.createElement("button");
-            button.type = "button";
-            button.className = "remove-participant-btn";
-            button.dataset.activity = name;
-            button.dataset.email = email;
-            button.setAttribute("aria-label", `Remove ${email} from ${name}`);
-            button.title = "Remove participant";
-            button.textContent = "\u00D7";
+            const removeButton = document.createElement("button");
+            removeButton.type = "button";
+            removeButton.className = "remove-participant-btn";
+            removeButton.dataset.activity = name;
+            removeButton.dataset.email = email;
+            removeButton.setAttribute("aria-label", `Remove ${email} from ${name}`);
+            removeButton.title = "Remove participant";
+            removeButton.textContent = "×";
+            participantItem.appendChild(removeButton);
 
-            li.appendChild(span);
-            li.appendChild(button);
-            ul.appendChild(li);
+            participantsList.appendChild(participantItem);
           });
-          participantsSection.appendChild(ul);
+
+          participantsSection.appendChild(participantsList);
         } else {
-          const emptyP = document.createElement("p");
-          emptyP.className = "participants-empty";
-          emptyP.textContent = "No participants yet. Be the first to sign up!";
-          participantsSection.appendChild(emptyP);
+          const emptyParticipants = document.createElement("p");
+          emptyParticipants.className = "participants-empty";
+          emptyParticipants.textContent = "No participants yet. Be the first to sign up!";
+          participantsSection.appendChild(emptyParticipants);
         }
 
         activityCard.appendChild(participantsSection);

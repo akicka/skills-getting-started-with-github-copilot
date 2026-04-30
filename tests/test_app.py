@@ -43,6 +43,7 @@ def test_get_activities_contains_required_fields(client):
     response = client.get("/activities")
 
     # Assert
+    assert response.status_code == 200
     payload = response.json()
     sample = payload["Chess Club"]
     assert "description" in sample

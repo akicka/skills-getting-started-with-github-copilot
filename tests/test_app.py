@@ -74,7 +74,11 @@ def test_signup_duplicate_participant_returns_400(client):
     # Arrange
     activity_name = "Chess Club"
     email = "duplicate@mergington.edu"
-    client.post(f"/activities/{activity_name}/signup", params={"email": email})
+    first_response = client.post(
+        f"/activities/{activity_name}/signup",
+        params={"email": email},
+    )
+    assert first_response.status_code == 200
 
     # Act
     response = client.post(f"/activities/{activity_name}/signup", params={"email": email})
